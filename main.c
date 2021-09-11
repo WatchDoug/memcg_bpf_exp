@@ -19,7 +19,7 @@
                          } while (0)
 
 #define STACK_SIZE (8 * 1024)
-static char thread_stack[3001][STACK_SIZE];
+static char thread_stack[5001][STACK_SIZE];
 
 static int
 install_filter(int syscall_nr, int t_arch, int f_errno)
@@ -56,7 +56,7 @@ install_filter(int syscall_nr, int t_arch, int f_errno)
 int thread_fn(void *arg) {
   int err;
   sleep(2);
-  for (int i = 0; i < 1200; ++i) {
+  for (int i = 0; i < 600; ++i) {
     err = install_filter(311, 0xC000003E, 1);
     if (err == -1)
       errExit("filter installation");
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
   char path[512], mapstr[100];
   unsigned int uid = getuid();
   sprintf(mapstr, "0\t%d\t1\n", uid);
-  for (int i = 0; i < 3000; ++i) {
+  for (int i = 0; i < 5000; ++i) {
     thread_pid = clone(thread_fn, thread_stack[i] + STACK_SIZE, \
         SIGCHLD | CLONE_NEWUSER, NULL);
     if (thread_pid == -1)
