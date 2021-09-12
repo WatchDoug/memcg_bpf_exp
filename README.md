@@ -19,4 +19,4 @@ The script does the following things:
 
 Wait a few minutes, take a cup of coffee, and you can observe OOM crash on the VM. 
 
-The PoC program run out all the 8GB RAM under 1GB memcg limit, default rlimit settings, and default sysctl settings. Note that although the memcg setting needs root privilege and require sudo password, the PoC program itself is run under normal privilege.
+The PoC program run out all the 8GB RAM under 1GB memcg limit, default rlimit settings, and default sysctl settings. Note that although setting up memcg needs root privilege and requires sudo password, the PoC program itself is run under normal privilege.
