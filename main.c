@@ -69,7 +69,7 @@ int thread_fn(void *arg) {
 
 int main(int argc, char **argv)
 {
-  int thread_pid;
+  int thread_pid, umapfd, res;
   char path[512], mapstr[100];
   unsigned int uid = getuid();
   sprintf(mapstr, "0\t%d\t1\n", uid);
@@ -80,12 +80,13 @@ int main(int argc, char **argv)
       errExit("clone");
     // map current pid to root in new userns
     sprintf(path, "/proc/%d/uid_map", thread_pid);
-    int umapfd = open(path, O_WRONLY);
-    int res = write(umapfd, mapstr, 100);
+    umapfd = open(path, O_WRONLY);
+    res = write(umapfd, mapstr, 100);
     // if success, the new thread owns 
     // CAP_SYS_ADMIN in the new userns
     if (res == -1)
       errExit("write uid_map");
+    close(umapfd);
   }
   while(1);
 }
